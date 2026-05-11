@@ -37,16 +37,16 @@ class Solution:
         def helper(r, c):
             directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
             area = 1
-            visitTags = set()
-            visitTags.add(0)
+            visitTags = [0]
 
             for dr, dc in directions:
                 newr = r + dr
                 newc = c + dc
-                if newr in range(rows) and newc in range(cols) and grid[newr][newc] not in visitTags:
+                if newr in range(rows) and newc in range(cols):
                     tag = grid[newr][newc]
-                    area += mapping[tag]
-                    visitTags.add(tag)
+                    if tag not in visitTags:
+                        area += mapping[tag]
+                        visitTags.append(tag)
             return area
 
         for r in range(rows):
