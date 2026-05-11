@@ -53,7 +53,6 @@ class Solution:
             for c in range(cols):
                 if grid[r][c] == 0:
                     area = helper(r, c)
-                    print(area)
                     maxArea = max(maxArea, area)
         
         return maxArea
