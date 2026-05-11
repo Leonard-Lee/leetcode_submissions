@@ -34,7 +34,6 @@ class Solution:
                     maxArea = max(maxArea, area)
                     tag += 1
 
-        # print(maxArea)
         def helper(r, c):
             directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
             area = 1
@@ -48,7 +47,6 @@ class Solution:
                     tag = grid[newr][newc]
                     area += mapping[tag]
                     visitTags.add(tag)
-            print(area)
             return area
 
         for r in range(rows):
