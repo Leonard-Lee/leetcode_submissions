@@ -5,18 +5,18 @@ class Solution:
 
         rows = len(board)
         cols = len(board[0])
-        path = set()
         
         def dfs(r, c, idx):
             if idx == len(word):
                 return True
 
-            if r < 0 or r >= rows or c < 0 or c >= cols or (r, c) in path or board[r][c] != word[idx]:
+            if r < 0 or r >= rows or c < 0 or c >= cols or board[r][c] != word[idx]:
                 return False
 
-            path.add((r, c))
+            tmp = board[r][c]
+            board[r][c] = "#"
             res = dfs(r + 1, c, idx + 1) or dfs(r - 1, c, idx + 1) or dfs(r, c + 1, idx + 1) or dfs(r, c - 1, idx + 1) 
-            path.remove((r, c))
+            board[r][c] = tmp
 
             return res
 
