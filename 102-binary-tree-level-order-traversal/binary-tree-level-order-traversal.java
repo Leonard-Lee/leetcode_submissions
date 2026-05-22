@@ -18,26 +18,23 @@ class Solution {
         if (root == null) {
             return new ArrayList<>();
         }
-
         List<List<Integer>> res = new ArrayList<>();
         Queue<TreeNode> q = new ArrayDeque<>();
         q.offer(root);
         while (q.size() > 0) {
-            List<Integer> list = new ArrayList<>();
+            List<Integer> tmpList = new ArrayList<>();
             int levelSize = q.size();
             for (int i = 0; i < levelSize; i++) {
                 TreeNode cur = q.poll();
-                list.add(cur.val);
-
+                tmpList.add(cur.val);
                 if (cur.left != null) {
                     q.offer(cur.left);
                 }
-
                 if (cur.right != null) {
                     q.offer(cur.right);
                 }
             }
-            res.add(list);
+            res.add(tmpList);
         }
         return res;
         
