@@ -5,14 +5,12 @@ class Solution {
         }
 
         Map<Integer, List<String>> map = new HashMap<>();
-        for (int i = 0; i < strs.length; i++) {
-            String str = strs[i];
+        for (String str : strs) {
             int hash = stringToHash(str);
             map.putIfAbsent(hash, new ArrayList<>());
             map.get(hash).add(str);
         }
         return new ArrayList<>(map.values());
-        
     }
 
     private int stringToHash(String str) {
