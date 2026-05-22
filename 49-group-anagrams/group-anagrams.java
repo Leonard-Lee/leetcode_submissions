@@ -3,21 +3,21 @@ class Solution {
         if (strs == null || strs.length == 0) {
             return new ArrayList<>();
         }
-
+        
         Map<Integer, List<String>> map = new HashMap<>();
         for (String str : strs) {
-            int hash = stringToHash(str);
-            map.putIfAbsent(hash, new ArrayList<>());
-            map.get(hash).add(str);
+            int hashCode = strToHash(str);
+            map.putIfAbsent(hashCode, new ArrayList<>());
+            map.get(hashCode).add(str);
         }
         return new ArrayList<>(map.values());
     }
 
-    private int stringToHash(String str) {
-        int[] freqArr = new int[26];
+    private int strToHash(String str) {
+        int[] arr = new int[26];
         for (char c : str.toCharArray()) {
-            freqArr[c - 'a'] += 1;
+            arr[c - 'a'] += 1;
         }
-        return Arrays.hashCode(freqArr);
+        return Arrays.hashCode(arr);
     }
 }
