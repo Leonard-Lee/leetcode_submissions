@@ -6,18 +6,21 @@ class Solution:
         rows = len(heights)
         cols = len(heights[0])
 
-        pacSet = set()
-        altSet = set()
-
-        def dfs(r, c, visitSet, preHeight) -> None:
-            if r < 0 or r >= rows or c < 0 or c >= cols or (r, c) in visitSet or heights[r][c] < preHeight:
+        def dfs(r, c, visitSet, pre) -> None:
+            if r < 0 or r >= rows or c <0 or c >= cols or (r, c) in visitSet:
                 return
+
+            if heights[r][c] < pre:
+                return 
 
             visitSet.add((r, c))
             dfs(r + 1, c, visitSet, heights[r][c])
             dfs(r - 1, c, visitSet, heights[r][c])
             dfs(r, c + 1, visitSet, heights[r][c])
             dfs(r, c - 1, visitSet, heights[r][c])
+
+        pacSet = set()
+        altSet = set()
 
         for c in range(cols):
             dfs(0, c, pacSet, heights[0][c])
@@ -33,4 +36,5 @@ class Solution:
                 if (r, c) in pacSet and (r, c) in altSet:
                     res.append([r, c])
         return res
+
         
