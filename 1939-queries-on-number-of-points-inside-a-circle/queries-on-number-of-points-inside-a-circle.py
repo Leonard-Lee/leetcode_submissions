@@ -16,7 +16,7 @@ class Solution:
 
             for j in range(leftIdx, rightIdx):
                 px, py = points[j]
-                if (px - cx) * (px - cx) + (py - cy) * (py - cy) <= r * r:
+                if (px - cx) ** 2 + (py - cy) ** 2 <= r ** 2:
                     res[i] += 1
         return res
 
