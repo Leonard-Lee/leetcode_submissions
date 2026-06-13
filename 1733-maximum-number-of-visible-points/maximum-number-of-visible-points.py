@@ -2,7 +2,6 @@ class Solution:
     def visiblePoints(self, points: List[List[int]], angle: int, location: List[int]) -> int:
         overlap_count, degrees = self.pointsToDegrees(points, location)
         i = 0
-        count = 0
         maxCount = 0
         for j in range(len(degrees)):
             while degrees[j] > degrees[i] + angle:
@@ -28,5 +27,7 @@ class Solution:
                 angles.append(degree)
 
         angles.sort()
-        angles = angles + [d + 360 for d in angles]
+        length = len(angles)
+        for i in range(length):
+            angles.append(angles[i] + 360)
         return (overlap_count, angles)
