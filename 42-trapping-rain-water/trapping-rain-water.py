@@ -3,25 +3,22 @@ class Solution:
         if not heights:
             return 0
 
-        # from left to right 
+        lmax, rmax = 0, 0
         n = len(heights)
-        pre = 0
-        lefts = [0] * n
-        for i in range(n):
-            lefts[i] = pre
-            pre = max(pre, heights[i])
-
-        pre = 0
-        rights = [0] * n
-        for i in range(n - 1, -1, -1):
-            rights[i] = pre
-            pre = max(pre, heights[i])
-
+        # two pointers
+        l, r = 0, n - 1
         count = 0
-        for i in range(n):
-            barHeight = min(lefts[i], rights[i])
-            if barHeight > heights[i]:
-                count += barHeight - heights[i]
-        
-        return count
-        
+        while l < r:
+            if heights[l] < heights[r]:
+                if heights[l] > lmax:
+                    lmax = heights[l]
+                else:
+                    count += lmax - heights[l]
+                l += 1
+            else:
+                if heights[r] > rmax:
+                    rmax = heights[r]
+                else:
+                    count += rmax - heights[r]
+                r -= 1
+        return count 
