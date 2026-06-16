@@ -1,33 +1,35 @@
 class Solution:
     def countPoints(self, points: List[List[int]], queries: List[List[int]]) -> List[int]:
-        # sort the points 
+        res = []
+        if not points or not queries:
+            return res
+
+        # sort the points by x, and then by y if they tie
         points.sort()
-        res = [0] * len(queries)
+        res = []
+        for x, y, r in queries:
+            low = self.binarySearch(points, x - r)
+            high = self.binarySearch(points, x + r + 1)
+            # # print("low: " + str(low))
+            # print("high: " + str(high))
+            count = 0
+            for idx in range(low, high):
+                px, py = points[idx]
+                if (px - x) ** 2 + (py - y) ** 2 <= r ** 2:
+                    count += 1
+            res.append(count)
 
-        # use bounding box
-        for i in range(len(queries)):
-            cx, cy, r = queries[i]
-            left = cx - r
-            right = cx + r
-
-            # print("left: " + str(left) + " right: " + str(right))
-            leftIdx = self.binarySearch(points, left)
-            rightIdx = self.binarySearch(points, right + 1)
-
-            for j in range(leftIdx, rightIdx):
-                px, py = points[j]
-                if (px - cx) ** 2 + (py - cy) ** 2 <= r ** 2:
-                    res[i] += 1
         return res
 
-    def binarySearch(self, points: List[List[int]], x: int) -> int:
+    def binarySearch(self, points: List[int][int], target: int) -> int:
         l, r = 0, len(points)
         while l < r:
             mid = (l + r) // 2
-            if points[mid][0] >= x:
+            if points[mid][0] >= target:
                 r = mid
             else:
                 l = mid + 1
-        return l
 
+        return l 
+        
         
