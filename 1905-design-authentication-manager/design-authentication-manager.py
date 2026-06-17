@@ -40,7 +40,7 @@ class AuthenticationManager:
     # amortized O(1)
     def countUnexpiredTokens(self, currentTime: int) -> int:
         cur = self.head.next
-        while cur.key != "" and currentTime >= cur.val:
+        while cur != self.tail and currentTime >= cur.val:
             nxt = cur.next
             self.remove(cur)
             del self.map[cur.key]
