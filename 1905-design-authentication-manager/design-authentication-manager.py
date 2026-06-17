@@ -33,13 +33,14 @@ class AuthenticationManager:
 
         node = self.map[tokenId]
         self.remove(node)
-        newNode = ListNode(tokenId, currentTime + self.ttl)
-        self.map[tokenId] = newNode
-        self.insertToTail(newNode)
+        node.val = currentTime + self.ttl
+        self.map[tokenId] = node
+        self.insertToTail(node)
 
     # amortized O(1)
     def countUnexpiredTokens(self, currentTime: int) -> int:
         cur = self.head.next
+        # here is the key, avoid removing the tail
         while cur != self.tail and currentTime >= cur.val:
             nxt = cur.next
             self.remove(cur)
