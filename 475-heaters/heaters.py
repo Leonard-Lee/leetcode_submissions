@@ -3,25 +3,16 @@ class Solution:
         if not houses or not heaters:
             return 0
 
+        houses.sort()
         heaters.sort()
+
+        idx = 0 # idx for heaters
         maxRadius = 0
         for house in houses:
-            idx = bisect.bisect_left(heaters, house)
-            left_radius = house - heaters[idx - 1] if idx > 0 else float("inf")
-            right_radius = heaters[idx] - house if idx < len(heaters) else float("inf")
-            radius = min(left_radius, right_radius)
-            maxRadius = max(maxRadius, radius)
-        
+            while idx < len(heaters) - 1 and abs(house - heaters[idx]) >= abs(house - heaters[idx + 1]):
+                idx += 1
+
+            maxRadius = max(maxRadius, abs(house - heaters[idx]))
         return maxRadius
 
-    def binarySearch(self, heaters, target) -> int:
-        l, r = 0, len(heaters)
-        while l < r:
-            mid = (l + r) // 2
-
-            if heaters[mid] >= target:
-                r = mid
-            else:
-                l = mid + 1
-        return l
         
