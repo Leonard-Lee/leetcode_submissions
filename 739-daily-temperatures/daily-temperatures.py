@@ -9,11 +9,11 @@ class Solution:
         for i in range(n):
             tmp = temperatures[i]
 
-            while stack and stack[-1][0] < tmp:
-                oldTemp, idx = stack.pop()
+            while stack and temperatures[stack[-1]] < tmp:
+                idx = stack.pop()
                 res[idx] = i - idx 
 
-            stack.append([tmp, i])
+            stack.append(i)
 
         return res
         
