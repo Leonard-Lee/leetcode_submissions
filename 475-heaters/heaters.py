@@ -6,7 +6,7 @@ class Solution:
         heaters.sort()
         maxRadius = 0
         for house in houses:
-            idx = self.binarySearch(heaters, house)
+            idx = bisect.bisect_left(heaters, house)
             left_radius = house - heaters[idx - 1] if idx > 0 else float("inf")
             right_radius = heaters[idx] - house if idx < len(heaters) else float("inf")
             radius = min(left_radius, right_radius)
