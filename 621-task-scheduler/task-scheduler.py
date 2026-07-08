@@ -17,6 +17,8 @@ class Solution:
                 count = heapq.heappop(maxHeap) + 1
                 if count != 0:
                     q.append((count, time + n))
+            else:
+                time = q[0][1]
 
             if q and time == q[0][1]:
                 heapq.heappush(maxHeap, q.popleft()[0])
