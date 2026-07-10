@@ -45,7 +45,7 @@ class Solution:
                             tag = grid[newr][newc]
                             area += mapping[tag]
                             visitSet.add(tag)
-                        maxArea = max(maxArea, area)
+                    maxArea = max(maxArea, area)
 
         return maxArea if maxArea != 0 else rows * cols
 
