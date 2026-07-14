@@ -1,25 +1,27 @@
 class Solution:
-    def trap(self, heights: List[int]) -> int:
-        if not heights:
+    def trap(self, height: List[int]) -> int:
+        if not height:
             return 0
 
-        l, r = 0, len(heights) - 1
-        lmax, rmax = 0, 0
+        l, r = 0, len(height) - 1
+        lmax, rmax = height[l], height[r]
         count = 0
-
         while l < r:
-            if heights[l] < heights[r]:
-                if heights[l] < lmax:
-                    count += lmax - heights[l]
+            if height[l] <= height[r]:
+                if lmax > height[l]:
+                    count += lmax - height[l]
                 else:
-                    lmax = heights[l]
+                    lmax = height[l]
+
                 l += 1
             else:
-                if heights[r] < rmax:
-                    count += rmax - heights[r]
+                if rmax > height[r]:
+                    count += rmax - height[r]
                 else:
-                    rmax = heights[r]
+                    rmax = height[r]
+
                 r -= 1
 
         return count
+
         
