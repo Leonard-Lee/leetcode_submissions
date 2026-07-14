@@ -1,72 +1,27 @@
-class ListNode:
-    def __init__(self, key="", val=0, pre=None, next=None):
-        self.key = key
-        self.val = val
-        self.pre = pre
-        self.next = next
-
 class AuthenticationManager:
 
     def __init__(self, timeToLive: int):
+        self.map = OrderedDict()
         self.ttl = timeToLive
-        # map a token id to a double linked list node
-        self.map = {}
-        self.head = ListNode()
-        self.tail = ListNode()
-        self.head.next = self.tail
-        self.tail.pre = self.head
 
     def generate(self, tokenId: str, currentTime: int) -> None:
-        if len(self.map) > 0:
-            self.countUnexpiredTokens(currentTime)
-
-        node = ListNode(tokenId, currentTime + self.ttl)
-        self.map[tokenId] = node
-        self.insertToTail(node)
+        self.evict(currentTime)
+        self.map[tokenId] = currentTime + self.ttl
 
     def renew(self, tokenId: str, currentTime: int) -> None:
-        if len(self.map) > 0:
-            self.countUnexpiredTokens(currentTime)
+        self.evict(currentTime)
+        if tokenId in self.map:
+            self.map[tokenId] = currentTime + self.ttl
+            self.map.move_to_end(tokenId)
         
-        if tokenId not in self.map:
-            return
 
-        node = self.map[tokenId]
-        self.remove(node)
-        node.val = currentTime + self.ttl
-        self.map[tokenId] = node
-        self.insertToTail(node)
-
-    # amortized O(1)
     def countUnexpiredTokens(self, currentTime: int) -> int:
-        cur = self.head.next
-        # here is the key, avoid removing the tail
-        while cur != self.tail and currentTime >= cur.val:
-            nxt = cur.next
-            self.remove(cur)
-            del self.map[cur.key]
-            cur = nxt
-
+        self.evict(currentTime)
         return len(self.map)
         
-    def remove(self, node: ListNode) -> None:
-        pre = node.pre
-        nxt = node.next
-        pre.next = nxt
-        nxt.pre = pre
-
-        node.pre = None
-        node.next = None
-
-    def insertToTail(self, node: ListNode) -> None:
-        preTail = self.tail.pre
-        preTail.next = node
-        node.pre = preTail
-
-        node.next = self.tail
-        self.tail.pre = node
-
-        
+    def evict(self, currentTime: int) -> None:
+        while self.map and next(iter(self.map.values())) <= currentTime:
+            self.map.popitem(last=False)
 
 
 # Your AuthenticationManager object will be instantiated and called as such:
